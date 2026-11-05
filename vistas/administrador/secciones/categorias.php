@@ -1,0 +1,9 @@
+<?php $sectionMetrics = ['Total de categorías' => count($categorias), 'Activas' => count(array_filter($categorias,static fn($c)=>$c['estado']==='Activo')), 'Inactivas' => count(array_filter($categorias,static fn($c)=>$c['estado']==='Inactivo'))]; ?>
+<div class="module-metrics" aria-label="Indicadores de Categorías de prendas">
+<?php foreach($sectionMetrics as $label=>$count): ?><div class="module-metric"><span><?= h($label) ?></span><strong><?= (int)$count ?></strong></div><?php endforeach; ?>
+</div>
+<section class="management-grid section-management" aria-label="Categorías de prendas">
+<article class="dash-panel management" id="categorias" data-module="categorias"><div class="manage-title"><div class="manage-icon"><?= admIcon('grid') ?></div><div><h2>Gestión de categorías</h2><small>Organiza las categorías de prendas</small></div><button class="primary mini" data-new="categorias"><?= admIcon('plus') ?> Nueva categoría</button></div>
+<div class="manage-filters"><label class="search-field"><?= admIcon('search') ?><input data-search type="search" placeholder="Buscar categoría..."></label><select data-filter aria-label="Estado de categoría"><option value="">Todos los estados</option><option>Activo</option><option>Inactivo</option></select></div>
+<div class="table-scroll"><table><thead><tr><th>ID</th><th>Nombre</th><th>Descripción</th><th>Estado</th><th>Acciones</th></tr></thead><tbody><?php foreach($categorias as $r):?><tr data-searchable="<?= h($r['id'].' '.$r['nombre'].' '.$r['descripcion'].' '.$r['estado']) ?>" data-filter-value="<?= h($r['estado']) ?>"><td><?= (int)$r['id'] ?></td><td><?= h($r['nombre']) ?></td><td><?= h($r['descripcion']) ?></td><td><?= stateBadge($r['estado']) ?></td><td class="actions"><?= makeEdit('categorias',$r) ?><?= stateButton('categorias',$r) ?></td></tr><?php endforeach; ?></tbody></table></div><div class="pagination"><span data-count></span><div data-pages></div></div></article>
+</section>
